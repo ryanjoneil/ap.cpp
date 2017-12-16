@@ -31,12 +31,11 @@ namespace APCPP {
         virtual void solve() override;
 
         virtual void set_obj(APIndex index, int _obj) override;
-        virtual void set_bounds(APIndex index, bool _lb, bool _ub) override;
+        virtual void remove_arc(APIndex index) override;
+        virtual void remove_arc(APIndex index, int obj) override;
 
         virtual int get_z() const override;
         virtual bool get_x(APIndex index) override;
-        virtual bool get_lb(APIndex index) override;
-        virtual bool get_ub(APIndex index) override;
         virtual int get_rc(APIndex index) override;
         virtual int get_u(unsigned int row) override;
         virtual int get_v(unsigned int col) override;
@@ -44,8 +43,6 @@ namespace APCPP {
     protected:
         int z;
         std::vector<std::vector<int>> a;
-        std::vector<std::vector<bool>> lb;
-        std::vector<std::vector<bool>> ub;
         std::vector<int> u;
         std::vector<int> v;
 

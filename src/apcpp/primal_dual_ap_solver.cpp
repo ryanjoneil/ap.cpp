@@ -27,8 +27,6 @@ using namespace std;
 PrimalDualAPSolver::PrimalDualAPSolver(const unsigned int size) :
     APSolver(size),
     a(vector<vector<int>>(size, vector<int>(size, 0))),
-    lb(vector<vector<bool>>(size, vector<bool>(size, false))),
-    ub(vector<vector<bool>>(size, vector<bool>(size, true))),
     u(vector<int>(size, 0)),
     v(vector<int>(size, 0)),
     f(vector<int>(size, -1)),
@@ -59,21 +57,22 @@ void PrimalDualAPSolver::set_obj(APIndex index, int _obj) {
     a[index.first][index.second] = _obj;
 }
 
-void PrimalDualAPSolver::set_bounds(APIndex index, bool _lb, bool _ub) {
+void PrimalDualAPSolver::remove_arc(APIndex index) {
     auto row = index.first;
     auto col = index.second;
 
-    lb[row][col] = _lb;
-    ub[row][col] = _ub;
-
-    if (!_ub) {
-        if (f[row] == (int) col) {
-            f[row] = -1;
-            f_bar[col] = -1;
-        }
-
-        a[row][col] = M;
+    if (f[row] == (int) col) {
+        f[row] = -1;
+        f_bar[col] = -1;
     }
+}
+
+void PrimalDualAPSolver::remove_arc(APIndex index, int obj) {
+    auto row = index.first;
+    auto col = index.second;
+
+    a[row][col] = obj;
+    remove_arc(index);
 }
 
 int PrimalDualAPSolver::get_z() const {
@@ -88,14 +87,6 @@ int PrimalDualAPSolver::get_rc(APIndex index) {
     auto row = index.first;
     auto col = index.second;
     return a[row][col] - u[row] - v[col];
-}
-
-bool PrimalDualAPSolver::get_lb(APIndex index) {
-    return lb[index.first][index.second];
-}
-
-bool PrimalDualAPSolver::get_ub(APIndex index) {
-    return ub[index.first][index.second];
 }
 
 int PrimalDualAPSolver::get_u(unsigned int row) {
@@ -259,14 +250,10 @@ int PrimalDualAPSolver::min_row(int j) {
     int min_row = 0;
 
     for (int i = 0; i < (int) size; ++i) {
-        if (lb[i][j]) {
-            return i;
-        } else if (ub[i][j]) {
-            if (first || a[i][j] < min_val || (a[i][j] == min_val && f[i] < 0)) {
-                first = false;
-                min_val = a[i][j];
-                min_row = i;
-            }
+        if (first || a[i][j] < min_val || (a[i][j] == min_val && f[i] < 0)) {
+            first = false;
+            min_val = a[i][j];
+            min_row = i;
         }
     }
 
@@ -279,14 +266,10 @@ int PrimalDualAPSolver::min_col(int i) {
     int min_col = 0;
 
     for (int j = 0; j < (int) size; ++j) {
-        if (lb[i][j]) {
-            return j;
-        } else if (ub[i][j]) {
-            if (first || a[i][j] - v[j] < min_val || (a[i][j] == min_val && f_bar[j] < 0)) {
-                first = false;
-                min_val = a[i][j] - v[j];
-                min_col = j;
-            }
+        if (first || a[i][j] - v[j] < min_val || (a[i][j] == min_val && f_bar[j] < 0)) {
+            first = false;
+            min_val = a[i][j] - v[j];
+            min_col = j;
         }
     }
 

@@ -24,7 +24,7 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    int M = 10 * 1000 * 1000;
+    int M = 1000;
 
     vector<vector<int>> obj = {
         {25, 40,  9, 15},

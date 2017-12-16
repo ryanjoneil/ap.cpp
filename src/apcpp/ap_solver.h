@@ -32,12 +32,11 @@ namespace APCPP {
         virtual void solve() = 0;
 
         virtual void set_obj(APIndex index, int obj) = 0;
-        virtual void set_bounds(APIndex index, bool lb, bool ub) = 0;
+        virtual void remove_arc(APIndex index) = 0;
+        virtual void remove_arc(APIndex index, int obj) = 0;
 
         virtual int get_z() const = 0;
         virtual bool get_x(APIndex index) = 0;
-        virtual bool get_lb(APIndex index) = 0;
-        virtual bool get_ub(APIndex index) = 0;
         virtual int get_rc(APIndex index) = 0;
         virtual int get_u(unsigned int row) = 0;
         virtual int get_v(unsigned int col) = 0;

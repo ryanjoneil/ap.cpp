@@ -15,6 +15,8 @@
 /*                                                                           */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <iomanip>
+
 #include <apcpp/ap_solver.h>
 
 using namespace APCPP;
@@ -36,34 +38,10 @@ void APSolver::print(ostream& out) {
         out << setw(5) << setfill(' ') << right << get_v(col);
     out << endl << endl;
 
-    out << "bnd\t";
-    for (unsigned int row = 0; row < size; ++row) {
-        for (unsigned int col = 0; col < size; ++col) {
-            auto lb = get_lb({row, col});
-            auto ub = get_ub({row, col});
-
-            out << setw(5) << setfill(' ') << right;
-
-            if (!ub)
-                out << "0";
-            else if (lb)
-                out << "1";
-            else
-                out << "-";
-        }
-        out << endl << "\t";
-    }
-    out << endl;
-
     out << "rc\t";
     for (unsigned int row = 0; row < size; ++row) {
-        for (unsigned int col = 0; col < size; ++col) {
-            out << setw(5) << setfill(' ') << right;
-            if (get_ub({row, col}))
-                out << get_rc({row, col});
-            else
-                out << "-";
-        }
+        for (unsigned int col = 0; col < size; ++col)
+            out << setw(5) << setfill(' ') << right << get_rc({row, col});
         out << endl << "\t";
     }
     out << endl;

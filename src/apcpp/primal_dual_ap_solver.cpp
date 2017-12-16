@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                           */
-/*  This file is part of the apcpp library for iterative solution of         */
+/*  This file is part of the apcpp library for incremental solution of       */
 /*  assignments problems. The code is a C++ port of the original Fortran     */
 /*  from the following paper:                                                */
 /*                                                                           */

@@ -1,22 +1,21 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                           */
-/*  This file is part of the tsppd program and library for solving           */
-/*  Traveling Salesman Problems with Pickup and Delivery. tsppd requires     */
-/*  other commercial and open source software to build. tsppd is decribed    */
-/*  in the paper "Exact Methods for Solving Traveling Salesman Problems      */
-/*  with Pickup and Delivery in Real Time".                                  */
+/*  This file is part of the apcpp library for incremental solution of       */
+/*  assignments problems. The code is a C++ port of the original Fortran     */
+/*  from the following paper:                                                */
 /*                                                                           */
-/*  Copyright (C) 2017 Ryan J. O'Neil <roneil1@gmu.edu>                      */
+/*      Giorgio Carpaneto, Silvano Martello, and Paolo Toth.                 */
+/*      "Algorithms and codes for the assignment problem."                   */
+/*      Annals of Operations Research 13, no. 1 (1988): 191-223.             */
 /*                                                                           */
-/*  tsppd is distributed under the terms of the ZIB Academic License.        */
-/*  You should have received a copy of the ZIB Academic License along with   */
-/*  tsppd. See the file LICENSE. If not, email roneil1@gmu.edu.              */
+/*  apcpp is distributed under the terms of the MIT License. You should      */
+/*  have received a copy with the source If not, email roneil1@gmu.edu.      */
+/*                                                                           */
+/*      Copyright (C) 2017 Ryan J. O'Neil <roneil1@gmu.edu>                  */
 /*                                                                           */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <iomanip>
 #include <iostream>
-#include <memory>
 #include <vector>
 
 #include <apcpp/primal_dual_ap_solver.h>
@@ -33,20 +32,20 @@ int main(int argc, char** argv) {
         {32, 11, 12, 26}
     };
 
-    APCPP::PrimalDualAPSolver h(obj.size());
+    APCPP::PrimalDualAPSolver solver(obj.size());
 
     for (unsigned int row = 0; row < obj.size(); ++row)
         for (unsigned int col = 0; col < obj[row].size(); ++col)
-            h.set_obj({row, col}, obj[row][col]);
+            solver.set_obj({row, col}, obj[row][col]);
 
-    h.solve();
-    h.print(cout);
-    h.remove_arc({2, 2}, M);
-    h.remove_arc({1, 0}, M);
-    h.remove_arc({0, 3}, M);
-    h.remove_arc({3, 1}, M);
-    h.remove_arc({2, 0}, M);
-    h.remove_arc({3, 3}, M);
-    h.solve();
-    h.print(cout);
+    solver.solve();
+    solver.print(cout);
+    solver.remove_arc({2, 2}, M);
+    solver.remove_arc({1, 0}, M);
+    solver.remove_arc({0, 3}, M);
+    solver.remove_arc({3, 1}, M);
+    solver.remove_arc({2, 0}, M);
+    solver.remove_arc({3, 3}, M);
+    solver.solve();
+    solver.print(cout);
 }

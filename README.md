@@ -1,4 +1,4 @@
-# AP.CPP: Incremental Primal-Dual Assignment Problem Solver
+# ap.cpp: Incremental Primal-Dual Assignment Problem Solver
 
 This code provides a C++ implementation of an incremental primal-dual assignment problem solver. It is a port of the original Fortran for the dense AP discussed in the following paper.
 

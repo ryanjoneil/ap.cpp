@@ -229,7 +229,8 @@ void PrimalDualAPSolver::initialize_phase_2() {
 
                 // Note: The paper sets p[r] = k +1, but the FORTRAN code
                 //       sets p[r] = n. We use the latter as our standard.
-                p[r] = size;
+                if (r >= 0)
+                    p[r] = size;
             }
 
             if (!assign)
